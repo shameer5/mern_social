@@ -8,7 +8,6 @@ const auth = async (req, res, next) => {
         let decodedData;
         if(token && typeAuth){
             decodedData = jwt.verify(token, 'creatingTest...')
-
             req.userId = decodedData?.id
             
         } else {

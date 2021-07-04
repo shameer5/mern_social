@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import { setPosts } from '../../ducks/posts';
 import { takeAUTH } from '../../ducks/auth';
-import { requestGetPosts, requestPostPosts, requestUpdatePosts, requestDeletePosts, requestUpdateLikeCount, requestUser, requestRegisterUser } from '../requests/posts'
+import { requestGetPosts, requestPostPosts, requestUpdatePosts, requestDeletePosts, requestUpdateLikeCount, requestUser, requestRegisterUser, requestCommentPost } from '../requests/posts'
 
 export function* handleGetPosts() {
     try{
@@ -71,6 +71,16 @@ export function* handleRegisterUser (action) {
         const {result, token} = data;
         yield put(takeAUTH(result, token))
         action.history.push('/')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export function* handleCommentPost (action) {
+    try{
+        yield call(requestCommentPost, action.value, action.id)
+        const {data} = yield call(requestGetPosts)
+        yield put(setPosts(data));
     } catch (error) {
         console.log(error)
     }

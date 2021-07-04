@@ -74,3 +74,20 @@ export const likePost = async (req,res) => {
     const updatedPost  = await PostMessage.findByIdAndUpdate(_id, post, {new: true});
     res.json(updatedPost)
 }
+
+export const commentPost = async (req,res) => {
+    const{id: _id} = req.params;
+    const{ value } = req.body;
+    console.log(value)
+
+    if(!req.userId)
+        return res.json({message: "Not Athuneticated"})
+     /* checking if the reqested id exist in DB */
+    if(!mongoose.Types.ObjectId.isValid(_id))
+        return res.send(404).send('Requested Post to comment does not exist');
+    const post  = await PostMessage.findById(_id);
+    console.log("Adding Comment...")
+    post.comments.push(value)
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {new:true});
+    res.json(updatedPost);
+}

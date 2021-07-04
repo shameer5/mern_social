@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardActions, CardContent, CardMedia, Avatar, Typography, IconButton,CardHeader } from '@material-ui/core';
+import { Collapse, Card, CardActions, CardContent, CardMedia, Avatar, InputBase, Typography, IconButton,CardHeader } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -10,13 +10,24 @@ import { useDispatch } from 'react-redux'
 import { formData } from '../../../redux/ducks/form';
 
 import useStyles from './styles'
-import { deletePost, updateLikeCount } from '../../../redux/ducks/posts';
+import { deletePost, updateLikeCount, commentPost } from '../../../redux/ducks/posts';
 
 const Post = ({post}) => {
     const classes = useStyles();
     let history  = useHistory();
     const dispatch = useDispatch();
     const user = JSON.parse(window.localStorage.getItem('profile'));
+    const [comment, setComment] = useState('');
+    const [expand, setExpand] = useState(false);
+
+    const handleExpand = () => {
+        setExpand(!expand)
+    }
+
+    const handleComment = () => {
+        dispatch(commentPost(`${user?.result?.name}: ${comment}`, post._id));
+        setComment('')
+    }
 
     const handleEdit = () => {
         dispatch(formData(post));
@@ -104,6 +115,28 @@ const Post = ({post}) => {
                     <DeleteIcon style={{ color: 'white' }} />
                     </IconButton>)}
            </CardActions>
+           {post.comments.length !== 0 &&
+           <div className={classes.viewCommentsContainer}>
+               <IconButton className={classes.viewComments} size="small" onClick={handleExpand}>{post?.comments.length < 2 ? (`View ${post?.comments.length} comment`) : (`View all ${post?.comments.length} comments`)}</IconButton>
+           </div>}
+           <Collapse className={classes.viewCommentsContainer_1} in={expand} timeout="auto" unmountOnExit>
+                {post?.comments.length && (
+                    <Typography paragraph style={{ color: 'white' }}>{post.comments.map((comment) => (
+                        <Typography>{comment}</Typography>
+                        ))}</Typography>
+                )}
+           </Collapse>
+           <div className={classes.commentContainer}>
+           <Avatar className={classes.smallAvatar}>{post.name.charAt(0).toUpperCase()}</Avatar>
+            <InputBase className={classes.comment}
+                placeholder = "Add a comment..."
+                multiline  
+                fullWidth
+                value={comment}
+                onChange={(e) => setComment(e.target.value ) }
+            ></InputBase>
+            <IconButton size="small" className={classes.commentButton} color="default" variant="contained" onClick={handleComment}>Post</IconButton>
+           </div>
         </Card>
     )
 }

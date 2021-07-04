@@ -67,3 +67,11 @@ export function requestRegisterUser(loginData){
         data: loginData
     })
 }
+
+export function requestCommentPost(value, id){
+    return API.request({
+        method: "post",
+        url: `/posts/${id}/commentPost`,
+        data: { value }
+    })
+}

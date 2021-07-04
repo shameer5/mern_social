@@ -55,5 +55,37 @@ export default makeStyles( (theme) =>({
     },
     avatar:{
         backgroundColor: grey[700]
+    },
+    smallAvatar:{
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+        marginRight: '16px',
+        backgroundColor: grey[700],
+        fontSize: "medium"
+    },
+    commentContainer:{
+        display: 'flex',
+        alignItems: 'center',
+        padding: "0px 16px 8px" 
+    },
+    comment:{
+        color: 'white'
+    },
+    commentButton:{
+        paddingLeft: "16px",
+        color: "rgb(126 126 126)",
+        fontSize: "1rem",
+        fontWeight: "700"
+    },
+    viewComments:{
+        color: "rgb(156 156 156)",
+        fontSize: "1.1rem",
+        fontWeight: "550"
+    },
+    viewCommentsContainer:{
+        padding: "0px 15px 8px"
+    },
+    viewCommentsContainer_1 :{
+        padding: "0px 16px"
     }
 }))

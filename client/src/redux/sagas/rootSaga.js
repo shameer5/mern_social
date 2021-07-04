@@ -1,7 +1,7 @@
 import { takeLatest } from "redux-saga/effects";
-import { FETCH_ALL, UPDATE_DATA, DELETE_DATA, CREATE, LIKE_COUNT } from '../ducks/posts'
+import { FETCH_ALL, UPDATE_DATA, COMMENT, DELETE_DATA, CREATE, LIKE_COUNT } from '../ducks/posts'
 import { LOGIN, REGISTER } from '../ducks/auth'
-import {handleGetPosts, handleCreatePosts, handleUpdatePosts, handleDeletePosts, handleUpdateLikeCount, handleUserLogin, handleRegisterUser} from './handlers/posts'
+import {handleGetPosts, handleCreatePosts, handleUpdatePosts, handleDeletePosts, handleUpdateLikeCount, handleUserLogin, handleRegisterUser,handleCommentPost} from './handlers/posts'
 
 
 export function* watcherSaga(){
@@ -12,4 +12,5 @@ export function* watcherSaga(){
     yield takeLatest(LIKE_COUNT, handleUpdateLikeCount)
     yield takeLatest(LOGIN, handleUserLogin)
     yield takeLatest(REGISTER, handleRegisterUser)
+    yield takeLatest(COMMENT, handleCommentPost)
 }

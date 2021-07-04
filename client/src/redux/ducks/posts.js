@@ -43,6 +43,14 @@ export const updateLikeCount = (id) => ({
     type: LIKE_COUNT,
     id: id
 })
+/* Comments Functionality */
+export const COMMENT = 'commentPost'
+/* Action Creator */
+export const commentPost = (value, id) => ({
+    type: COMMENT,
+    value: value,
+    id: id
+})
 
 const initialState = {
     posts: []
